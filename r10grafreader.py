@@ -52,15 +52,11 @@ class R10GrafReaderFactory(AbstractSimpleSequentialReaderFactory):
 class R10GrafReader(AbstractSimpleSequentialReader):
 
   def __init__(self, factory, parameters):
-    self._factory = factory
-    self._parameters = parameters
+    AbstractSimpleSequentialReader.__init__(self,factory, parameters)
     self._parser = None
 
-  def getFactory(self):
-    return self._factory
-
   def getName(self):
-    return os.path.splitext(self._parameters.getFile().getName())[0]
+    return os.path.splitext(self.getFile().getName())[0]
     
   def getFieldNames(self):
     fields = [
@@ -82,17 +78,17 @@ class R10GrafReader(AbstractSimpleSequentialReader):
   
     
   def getFile(self):
-    return self._parameters.getFile()
+    return self.getParameters().getFile()
     
   def read(self):
     if self._parser == None:
-      self._parser = R10GrafParser(self._parameters.getFile().getAbsolutePath())
+      self._parser = R10GrafParser(self.getFile().getAbsolutePath())
       self._parser.open()
     return self._parser.read()
     
   def rewind(self):
     if self._parser == None:
-      self._parser = R10GrafParser(self._parameters.getFile().getAbsolutePath())
+      self._parser = R10GrafParser(self.getFile().getAbsolutePath())
       self._parser.open()
     self._parser.rewind()
     

@@ -127,6 +127,9 @@
         <field hidden="true" name="fieldtypes" label="Field types" type="string" mandatory="false" defaultValue="" group="Advanced">
           <description>Comma separated list of field types. If empty strings are assumed (Eg: integer,string,double,boolean,float,geometry).</description>
         </field>
+        <field name="skipEmptyGeometries" label="Skip Empty Geometries" type="boolean" mandatory="true" defaultValue="true">
+          <description>Ignore features without geometry.</description>
+        </field>
         <field name="ignoreErrors" label="Ignore errors" type="boolean" mandatory="false" defaultValue="true">
           <description>Set to true to ignore errors during load of data.</description>
         </field>

@@ -82,13 +82,18 @@ class R10GrafReader(AbstractSimpleSequentialReader):
     
   def read(self):
     if self._parser == None:
-      self._parser = R10GrafParser(self.getFile().getAbsolutePath())
+      ## check if ignore geometries
+      skipEmptyGeometries = self.getParameters().getDynValue("skipEmptyGeometries")
+      self._parser = R10GrafParser(self.getFile().getAbsolutePath(), skipEmptyGeometries)
       self._parser.open()
+    #if self._parser.isDone():
+    #  return None
+    #else:
     return self._parser.read()
     
   def rewind(self):
     if self._parser == None:
-      self._parser = R10GrafParser(self.getFile().getAbsolutePath())
+      self._parser = R10GrafParser(self.getFile().getAbsolutePath(), self.getParameters().getDynValue("skipEmptyGeometries"))
       self._parser.open()
     self._parser.rewind()
     
@@ -117,17 +122,20 @@ def test(factory, fname):
 
   n = 0
   line = reader.read()
-  while line!=None and n<10:
+  while line!=None and n<999999:
     print line
     line = reader.read()
     n += 1
   reader.close()
   reader.rewind() # test rewind
+  
     
 
 def main(*args):
   selfRegister()
-  test(R10GrafReaderFactory(), "/home/jjdelcerro/datos/geodata/vector/R10/2018/r10graf.xml")
+  #test(R10GrafReaderFactory(), "/home/osc/R10Graf/r10graf.xml")
+  
+  test(R10GrafReaderFactory(), "/home/osc/R10Graf/BDA_R10_graf18_1728062018_001.xml")
   pass
 
   
